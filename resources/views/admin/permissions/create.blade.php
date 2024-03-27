@@ -12,7 +12,7 @@
                         </div>
 
                         <div class="block w-full mb-12 overflow-x-auto dark:text-slate-200">
-                            <form action="{{ route('admin.roles.store') }}" method="POST">
+                            <form action="{{ route('admin.permissions.store') }}" method="POST">
                                 @csrf
                                 <x-input-label>Permission name</x-input-label>
                                 <x-text-input name='name' class="w-full"></x-text-input>

@@ -40,10 +40,22 @@
                                                     class="p-4 px-6 text-left align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap text-blueGray-700 ">
                                                     {{ $permission->name }}
                                                 </th>
-                                                <td
-                                                    class="p-4 px-6 align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap ">
-                                                    <a href="#">Edit</a>
-                                                    <a href="#">Delete</a>
+                                                <td class="">
+                                                    <div class="flex justify-end px-2">
+                                                        <a class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-green-600 border border-transparent rounded-md hover:bg-green-500 active:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                                                            href="{{ route('admin.permissions.edit', $permission) }}">Edit</a>
+
+                                                        <form
+                                                            action="{{ route('admin.permissions.destroy', $permission) }}"
+                                                            onsubmit="return confirm('are you sure to delete the permission ?')"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <x-danger-button class="ms-3">
+                                                                {{ __('Delete') }}
+                                                            </x-danger-button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @empty

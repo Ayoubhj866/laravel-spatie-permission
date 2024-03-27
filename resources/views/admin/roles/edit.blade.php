@@ -12,13 +12,14 @@
                         </div>
 
                         <div class="block w-full overflow-x-auto dark:text-slate-200">
-                            <form action="{{ route('admin.roles.store') }}" method="POST">
+                            <form action="{{ route('admin.roles.update', $role) }}" method="POST">
                                 @csrf
+                                @method('PUT')
                                 <x-input-label>Role name</x-input-label>
-                                <x-text-input name='name' class="w-full" :value="old('name')"></x-text-input>
+                                <x-text-input name='name' class="w-full" :value="old('name', $role->name)"></x-text-input>
                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
 
-                                <x-primary-button class="mt-4">Create</x-primary-button>
+                                <x-primary-button class="mt-4">Edit</x-primary-button>
                             </form>
                         </div>
                     </div>
