@@ -71,11 +71,13 @@ class PermissionController extends Controller
 
     public function giveRole(Request $request , Permission $permission )
     {
-        if( $permission->hasRole(Role::find($request->role) ->name)) {
+        $validated = $request->validate(['name' => ["required"]]) ;
+
+        if( $permission->hasRole(Role::find($validated['role'])->name)) {
             return back()->with('hasOne', 'Role already exist !') ;
         }
 
-        $permission->assignRole(Role::find($request->role) ->name) ;
+        $permission->assignRole(Role::find($validated['role']) ->name) ;
 
         return back()->with('message', ['type' => 'success' , 'message' => 'role assigned successfully !']);
     }

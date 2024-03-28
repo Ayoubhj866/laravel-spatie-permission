@@ -17,7 +17,10 @@
                                 @method('PUT')
                                 <x-input-label>Role name</x-input-label>
                                 <x-text-input name='name' class="w-full" :value="old('name', $permission->name)"></x-text-input>
-                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+
+                                @error('name')
+                                    <x-input-error :messages="$message" class="mt-2" />
+                                @enderror
 
                                 <x-primary-button class="mt-4">Edit</x-primary-button>
                             </form>
@@ -69,7 +72,7 @@
                                 <div class="relative mb-4">
                                     <label for="name" class="text-sm leading-7 text-gray-400">Name</label>
 
-                                    <select name="role" id=""
+                                    <select name="assignedRole" id=""
                                         class="w-full px-3 py-1 text-base leading-8 text-gray-100 transition-colors duration-200 ease-in-out bg-gray-800 border border-gray-700 rounded outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900">
                                         <option disabled selected>Select a permission...</option>
                                         @forelse ($roles as $key => $name)
@@ -81,7 +84,7 @@
                                     @error('permission')
                                         <span>{{ $message }}</span>
                                     @enderror
-                                    <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('assignedRole')" class="mt-2" />
 
 
                                     <div class="flex items-center gap-4">
