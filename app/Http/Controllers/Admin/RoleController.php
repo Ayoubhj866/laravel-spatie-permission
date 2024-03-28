@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -44,7 +45,8 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
-        return view("admin.roles.edit" , ['role'=>$role]) ;
+        $permissions = Permission::pluck('name','id');
+        return view("admin.roles.edit" ,compact('role' , 'permissions')) ;
     }
 
     public function update(Request $request , Role  $role)
@@ -54,5 +56,25 @@ class RoleController extends Controller
         $role->update($validated);
 
         return redirect()->route('admin.roles.index')->with('message', ['type'=> 'success' , 'message' => 'The role has been updated successfully'] );
+    }
+
+
+    public function givePermission(Request $request , Role $role)
+    {
+        $permission = Permission::find($request -> permission )->name ;
+
+        if($role->hasPermissionTo($permission) )  {
+            return back()->with('hasOne' , " *$permission* permission is already assigned to the *$role->name* role !") ;
+        }
+        $role -> givePermissionTo( $permission );
+        return back()->with("message", ['type'=> 'success' , 'message' => 'Permission assigned successfylly !'] ) ;
+    }
+
+
+
+    public function revokPermission (Request $request , Role $role , string $permission )
+    {
+        $role->revokePermissionTo( $permission );
+        return back()->with('message', ['type'=> 'success' , 'message'=> 'permission revoked successfylly!'] ) ;
     }
 }
