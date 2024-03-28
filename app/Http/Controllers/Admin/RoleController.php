@@ -72,7 +72,7 @@ class RoleController extends Controller
 
 
 
-    public function revokPermission (Request $request , Role $role , string $permission )
+    public function revokPermission (Role $role , string $permission )
     {
         $role->revokePermissionTo( $permission );
         return back()->with('message', ['type'=> 'success' , 'message'=> 'permission revoked successfylly!'] ) ;

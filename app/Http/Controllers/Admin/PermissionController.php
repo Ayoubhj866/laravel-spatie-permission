@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
 {
@@ -34,7 +35,8 @@ class PermissionController extends Controller
 
     public function edit(Permission $permission)
     {
-        return view("admin.permissions.edit" , ["permission" => $permission]) ;
+        $roles =  Role::pluck('name' , 'id');
+        return view("admin.permissions.edit" , ["permission" => $permission , 'roles' => $roles ]) ;
     }
 
 
@@ -52,5 +54,29 @@ class PermissionController extends Controller
 
         return  redirect()->route('admin.permissions.index')->with('message' ,['type' => 'success' , 'message' => 'Permission deleted successfully !']) ;
     }
-}
 
+
+    public function revokeRole (Permission $permission , Role $role)
+
+    {
+        if($permission->hasRole($role->name))
+        {
+            $permission -> removeRole($role -> name) ;
+            return back()->with('message', ['type'=> 'success' , 'message'=> 'role deleted successfylly !']) ;
+        }
+
+        return back()->with('message', ['type'=> 'error' , 'message'=> 'role not exist !']) ;
+
+    }
+
+    public function giveRole(Request $request , Permission $permission )
+    {
+        if( $permission->hasRole(Role::find($request->role) ->name)) {
+            return back()->with('hasOne', 'Role already exist !') ;
+        }
+
+        $permission->assignRole(Role::find($request->role) ->name) ;
+
+        return back()->with('message', ['type' => 'success' , 'message' => 'role assigned successfully !']);
+    }
+}

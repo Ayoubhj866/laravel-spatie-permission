@@ -35,9 +35,11 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
     Route::get('/', [IndexController::class, 'index']) -> name('index') ;
     Route::resource('/roles' , RoleController::class) ;
-    Route::post('/roles/{role}/permissions' , [RoleController::class, 'givePermission']) -> name('roles.permission.store')  ;
+    Route::post('/roles/{role}' , [RoleController::class, 'givePermission']) -> name('roles.permission.store')  ;
     Route::post('/roles/{role}/{permission}' , [RoleController::class, 'revokPermission']) -> name('roles.permission.delete')  ;
     Route::resource('/permissions' , PermissionController::class) ;
+    Route::post('/permissions/{permission}/{role}', [PermissionController::class,'revokeRole'])->name("permissions.role.delete") ;
+    Route::post("/permission/{permission}", [PermissionController::class, 'giveRole'])->name("permissions.role.store") ;
 }) ;
 
 
