@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="mt-6">
-                            <h2 class="mb-1 text-lg font-medium text-white title-font">Role Permissions</h2>
+                            <h2 class="mb-1 text-lg font-medium text-white title-font">Roles</h2>
 
                             @if ($permission->roles)
                                 <ul>
