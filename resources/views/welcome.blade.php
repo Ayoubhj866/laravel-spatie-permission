@@ -67,42 +67,10 @@
             </div>
         @endif
 
-        <div class="p-6 mx-auto max-w-7xl lg:p-8">
-            <div id="editor">text</div>
 
-            <pre><code class="language-javascrip">window.alert( 'Hello world!' )</code></pre>
-
-        </div>
     </div>
 
 
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                highlight: {
-                    options: [{
-                            model: 'greenMarker',
-                            class: 'marker-green',
-                            title: 'Green marker',
-                            color: 'var(--ck-highlight-marker-green)',
-                            type: 'marker'
-                        },
-                        {
-                            model: 'redPen',
-                            class: 'pen-red',
-                            title: 'Red pen',
-                            color: 'var(--ck-highlight-pen-red)',
-                            type: 'pen'
-                        }
-                    ]
-                },
-                toolbar: [
-                    'heading', '|', 'bulletedList', 'numberedList', 'highlight', 'undo', 'redo'
-                ]
-            }).catch(error => {
-                console.error(error);
-            });
-    </script>
 </body>
 
 </html>
