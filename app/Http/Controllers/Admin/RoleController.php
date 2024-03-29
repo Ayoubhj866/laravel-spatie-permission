@@ -4,19 +4,25 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session as FacadesSession;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+
 
 class RoleController extends Controller
 {
     public function index() : View
     {
+        if(FacadesSession::has("message")) {
+            toast(session('message'), session('type'))->toToast()->position("bottom-end")->timerProgressBar();
+        }
+
         $roles = Role::whereNotIn('name', ['admin'])->paginate(5);
 
-        // $roles = Role::paginate(5);
-        return view("admin.roles.index" , compact('roles') )->with('message','Message success !');
+        return view("admin.roles.index" , compact('roles') );
     }
 
 
@@ -39,7 +45,7 @@ class RoleController extends Controller
         // Role::destroy($role) ;
         $role ->delete();
 
-        return redirect()->route('admin.roles.index')->with('message', ['type' =>'success','message'=> 'Role deleted successfully !']);
+        return redirect()->route('admin.roles.index')->with(['message'=> 'Role deleted successfully !' , 'type' => 'info']);
     }
 
 
@@ -55,7 +61,7 @@ class RoleController extends Controller
 
         $role->update($validated);
 
-        return redirect()->route('admin.roles.index')->with('message', ['type'=> 'success' , 'message' => 'The role has been updated successfully'] );
+        return redirect()->route('admin.roles.index')->with( ['message'=> 'Role updated successfully !' , 'type' => 'success']);
     }
 
 
@@ -67,7 +73,7 @@ class RoleController extends Controller
             return back()->with('hasOne' , " *$permission* permission is already assigned to the *$role->name* role !") ;
         }
         $role -> givePermissionTo( $permission );
-        return back()->with("message", ['type'=> 'success' , 'message' => 'Permission assigned successfylly !'] ) ;
+        return back()->with(['type'=> 'success' , 'message' => 'Permission assigned successfylly !'] ) ;
     }
 
 
@@ -75,6 +81,6 @@ class RoleController extends Controller
     public function revokPermission (Role $role , string $permission )
     {
         $role->revokePermissionTo( $permission );
-        return back()->with('message', ['type'=> 'success' , 'message'=> 'permission revoked successfylly!'] ) ;
+        return back()->with( ['type'=> 'success' , 'message'=> 'permission revoked successfylly!'] ) ;
     }
 }

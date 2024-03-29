@@ -8,6 +8,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    {{-- animate css cdn --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -134,52 +137,17 @@
                         </svg>
                     </button>
                 </nav>
-
-
             </div>
             {{-- content --}}
 
 
 
             <div class="w-full p-4 bg-slate-50 dark:bg-gray-900">
-                {{-- alert  --}}
-                @session('message')
-                    <div x-data="{ open: true }" x-show="{ open}"
-                        class="w-full p-5 mx-auto @if (session('message')['type'] === 'success') bg-green-100 @else bg-red-200 @endif rounded ">
-                        <div class="flex justify-between">
-                            <div class="flex space-x-3">
-                                @if (session('message')['type'] === 'success')
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="flex-none w-4 h-4 text-green-500 fill-current">
-                                        <path
-                                            d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 16.518l-4.5-4.319 1.396-1.435 3.078 2.937 6.105-6.218 1.421 1.409-7.5 7.626z" />
-                                    </svg>
-                                @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                                    </svg>
-                                @endif
-
-
-                                <div class="flex-1 text-sm font-medium leading-tight text-green-700">
-                                    {{ session('message')['message'] }}
-                                </div>
-                            </div>
-
-                            <button @click="open = false">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                    class="flex-none w-3 h-3 text-green-600 fill-current">
-                                    <path
-                                        d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                @endsession
                 {{ $slot }}
             </div>
+
+            {{-- sweet alert --}}
+            @include('sweetalert::alert')
 
         </div>
     </div>
