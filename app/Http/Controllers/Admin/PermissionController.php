@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
@@ -13,6 +14,12 @@ class PermissionController extends Controller
 {
     public function index() : View
     {
+
+        if(Session::has("message"))
+        {
+            toast(session('message'), session('type'))->toToast()->position('bottom-end')->timerProgressBar() ;
+        }
+
         $permissions = Permission::all();
         return view('admin.permissions.index' , compact('permissions')) ;
     }
@@ -29,7 +36,7 @@ class PermissionController extends Controller
 
         Permission::create($validated) ;
 
-        return redirect()->route('admin.permissions.index')->with('message' , ["type" => 'success' , 'message' => 'Permission created successfully !']) ;
+        return redirect()->route('admin.permissions.index')->with(['message' => 'Permission created successfully !' , 'type' => 'success']) ;
     }
 
 
@@ -45,14 +52,14 @@ class PermissionController extends Controller
         $validated = $request->validate(['name'=> ['required' , 'string' , 'min:3' ]]);
 
         $permission->update($validated) ;
-        return redirect()->route('admin.permissions.index')->with('message' ,  ['type' => 'success' , 'message'=> 'Permission deleted successfully !']);
+        return redirect()->route('admin.permissions.index')->with(['message'  => 'Permission deleted successfully !',  'type' => 'success']);
     }
 
     public function destroy(Permission $permission)
     {
         $permission->delete() ;
 
-        return  redirect()->route('admin.permissions.index')->with('message' ,['type' => 'success' , 'message' => 'Permission deleted successfully !']) ;
+        return  redirect()->route('admin.permissions.index')->with(['type' => 'info' , 'message' => 'Permission deleted successfully !']) ;
     }
 
 
@@ -62,10 +69,10 @@ class PermissionController extends Controller
         if($permission->hasRole($role->name))
         {
             $permission -> removeRole($role -> name) ;
-            return back()->with('message', ['type'=> 'success' , 'message'=> 'role deleted successfylly !']) ;
+            return back()->with(['type'=> 'success' , 'message'=> 'role deleted successfylly !']) ;
         }
 
-        return back()->with('message', ['type'=> 'error' , 'message'=> 'role not exist !']) ;
+        return back()->with(['type'=> 'error' , 'message'=> 'role not exist !']) ;
 
     }
 
@@ -79,6 +86,6 @@ class PermissionController extends Controller
 
         $permission->assignRole(Role::find($validated['role']) ->name) ;
 
-        return back()->with('message', ['type' => 'success' , 'message' => 'role assigned successfully !']);
+        return back()->with(['type' => 'success' , 'message' => 'role assigned successfully !']);
     }
 }

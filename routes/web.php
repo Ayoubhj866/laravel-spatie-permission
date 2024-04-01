@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-
+})->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -53,11 +51,6 @@ Route::prefix('admin')->middleware(['auth' , 'role:admin'])->name('admin.')->gro
     Route::delete('/users/{user}' , [UserController::class, 'destroy'])->name('users.destroy') ;
 
 }) ;
-
-
-
-
-
 
 
 require __DIR__.'/auth.php';

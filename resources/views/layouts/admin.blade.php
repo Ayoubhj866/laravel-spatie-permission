@@ -142,7 +142,7 @@
 
 
 
-            <div class="w-full p-4 bg-slate-50 dark:bg-gray-900">
+            <div class="w-full p-4 bg-slate-100 dark:bg-gray-900">
                 {{ $slot }}
             </div>
 

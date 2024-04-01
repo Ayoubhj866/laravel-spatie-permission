@@ -22,6 +22,11 @@
                         </x-nav-link>
                     @endif
 
+                    <x-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')">
+                        {{ __('Home') }}
+                    </x-nav-link>
+
+
 
 
                 </div>
